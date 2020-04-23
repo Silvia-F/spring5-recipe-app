@@ -12,7 +12,9 @@ public class Ingredient {
 
     private String description;
     private BigDecimal amount;
-    // private UnitOfMeasure uom;
+
+    @OneToOne // Unidirectional relationship, UnitOfMeasure doesn't need to know the Ingredient
+    private UnitOfMeasure uom;
 
     @ManyToOne // No need for cascade because Recipe "owns" the relation. If this had a cascade, a recipe would be deleted upon an ingredient deletion
     private Recipe recipe;
@@ -39,6 +41,14 @@ public class Ingredient {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public UnitOfMeasure getUom() {
+        return uom;
+    }
+
+    public void setUom(UnitOfMeasure uom) {
+        this.uom = uom;
     }
 
     public Recipe getRecipe() {
