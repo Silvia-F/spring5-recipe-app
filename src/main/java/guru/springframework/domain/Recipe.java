@@ -30,6 +30,12 @@ public class Recipe {
     @OneToOne(cascade = CascadeType.ALL) // Only the Recipe defines cascade since it is the "owner" of the relation
     private Notes notes;
 
+    @ManyToMany
+    @JoinTable(name = "recipe_category", // If JoinTable is not specified, hibernate will create two tables for the relation
+        joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories;
+
     public Long getId() {
         return id;
     }
@@ -125,4 +131,11 @@ public class Recipe {
         this.notes = notes;
     }
 
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
 }
