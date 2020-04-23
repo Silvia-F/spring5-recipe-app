@@ -17,7 +17,9 @@ public class Recipe {
     private String source;
     private String url;
     private String directions;
-    // private Difficulty difficulty;
+
+    @Enumerated(value = EnumType.STRING) //Default EnumType is Ordinal
+    private Difficulty difficulty;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe") // Recipe will be stored in the "recipe" property in the Ingredient
     private Set<Ingredient> ingredients;
@@ -100,11 +102,27 @@ public class Recipe {
         this.image = image;
     }
 
-    public Notes getNotes() {
-        return notes;
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public Set<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public Notes getNotes() { return notes;
     }
 
     public void setNotes(Notes notes) {
         this.notes = notes;
     }
+
 }
