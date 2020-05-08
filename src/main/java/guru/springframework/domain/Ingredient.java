@@ -19,6 +19,15 @@ public class Ingredient {
     @ManyToOne // No need for cascade because Recipe "owns" the relation. If this had a cascade, a recipe would be deleted upon an ingredient deletion
     private Recipe recipe;
 
+    public Ingredient() {}
+
+    public Ingredient(String description, BigDecimal amount, UnitOfMeasure uom, Recipe recipe) {
+        this.description = description;
+        this.amount = amount;
+        this.uom = uom;
+        this.recipe = recipe;
+    }
+
     public Long getId() {
         return id;
     }
