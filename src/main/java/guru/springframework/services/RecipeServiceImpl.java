@@ -5,6 +5,7 @@ import guru.springframework.repositories.RecipeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -21,5 +22,17 @@ public class RecipeServiceImpl implements RecipeService {
         Set<Recipe> recipeSet = new HashSet<>();
         recipeRepository.findAll().iterator().forEachRemaining(recipeSet::add);
         return recipeSet;
+    }
+
+    @Override
+    public Recipe findById(Long id) {
+
+        Optional<Recipe> recipe = recipeRepository.findById(id);
+
+        if (!recipe.isPresent()) {
+            throw new RuntimeException("Recipe Not Found");
+        }
+
+        return recipe.get();
     }
 }
