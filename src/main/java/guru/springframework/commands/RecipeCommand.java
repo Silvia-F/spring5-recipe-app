@@ -1,43 +1,39 @@
-package guru.springframework.domain;
+package guru.springframework.commands;
 
-import javax.persistence.*;
+import guru.springframework.domain.Difficulty;
+
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-public class Recipe {
+public class RecipeCommand {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generated sequence
     private Long id;
 
     private String description;
+
     private Integer prepTime;
+
     private Integer cookTime;
+
     private Integer servings;
+
     private String source;
+
     private String url;
 
-    @Lob
     private String directions;
 
-    @Enumerated(value = EnumType.STRING) //Default EnumType is Ordinal
+    private Set<IngredientCommand> ingredients = new HashSet<>();
+
     private Difficulty difficulty;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe") // Recipe will be stored in the "recipe" property in the Ingredient
-    private Set<Ingredient> ingredients = new HashSet<>();
+    private NotesCommand notes;
 
-    @Lob // Large object
-    private Byte[] image;
+    private Set<CategoryCommand> categories = new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.ALL) // Only the Recipe defines cascade since it is the "owner" of the relation
-    private Notes notes;
+    public RecipeCommand() {
 
-    @ManyToMany
-    @JoinTable(name = "recipe_category", // If JoinTable is not specified, hibernate will create two tables for the relation
-        joinColumns = @JoinColumn(name = "recipe_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<Category> categories = new HashSet<>();
+    }
 
     public Long getId() {
         return id;
@@ -103,12 +99,12 @@ public class Recipe {
         this.directions = directions;
     }
 
-    public Byte[] getImage() {
-        return image;
+    public Set<IngredientCommand> getIngredients() {
+        return ingredients;
     }
 
-    public void setImage(Byte[] image) {
-        this.image = image;
+    public void setIngredients(Set<IngredientCommand> ingredients) {
+        this.ingredients = ingredients;
     }
 
     public Difficulty getDifficulty() {
@@ -119,36 +115,19 @@ public class Recipe {
         this.difficulty = difficulty;
     }
 
-    public Set<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(Set<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    public Recipe addIngredient(Ingredient ingredient) {
-        ingredient.setRecipe(this);
-        this.ingredients.add(ingredient);
-        return this;
-    }
-
-    public Notes getNotes() {
+    public NotesCommand getNotes() {
         return notes;
     }
 
-    public void setNotes(Notes notes) {
+    public void setNotes(NotesCommand notes) {
         this.notes = notes;
-        if (notes != null) {
-            notes.setRecipe(this);
-        }
     }
 
-    public Set<Category> getCategories() {
+    public Set<CategoryCommand> getCategories() {
         return categories;
     }
 
-    public void setCategories(Set<Category> categories) {
+    public void setCategories(Set<CategoryCommand> categories) {
         this.categories = categories;
     }
 }
